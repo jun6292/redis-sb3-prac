@@ -1,5 +1,7 @@
-package com.example.redis;
+package com.example.redis.controller;
 
+import com.example.redis.entity.ItemOrder;
+import com.example.redis.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

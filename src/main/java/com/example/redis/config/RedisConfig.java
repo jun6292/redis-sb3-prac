@@ -1,5 +1,6 @@
-package com.example.redis;
+package com.example.redis.config;
 
+import com.example.redis.dto.ItemDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -30,4 +31,9 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new GenericToStringSerializer<>(Integer.class));
         return redisTemplate;
     }
+
+//    @Bean
+//    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
+//        return RedisSerializer.json();
+//    }
 }
