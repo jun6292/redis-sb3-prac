@@ -10,17 +10,17 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 @Configuration
 public class RedisConfig {
-    @Bean
-    public RedisTemplate<String, ItemDto> itemRedisTemplate(
-        RedisConnectionFactory redisConnectionFactory
-    ) {
-        RedisTemplate<String, ItemDto> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(RedisSerializer.string());
-        redisTemplate.setValueSerializer(RedisSerializer.json());
-        return redisTemplate;
-    }
-
+//    @Bean
+//    public RedisTemplate<String, ItemDto> itemRedisTemplate(
+//        RedisConnectionFactory redisConnectionFactory
+//    ) {
+//        RedisTemplate<String, ItemDto> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(redisConnectionFactory);
+//        redisTemplate.setKeySerializer(RedisSerializer.string());
+//        redisTemplate.setValueSerializer(RedisSerializer.json());
+//        return redisTemplate;
+//    }
+//
     @Bean
     public RedisTemplate<String, Integer> articleTemplate(
             RedisConnectionFactory redisConnectionFactory
@@ -36,4 +36,15 @@ public class RedisConfig {
 //    public RedisSerializer<Object> springSessionDefaultRedisSerializer() {
 //        return RedisSerializer.json();
 //    }
+
+    @Bean
+    public RedisTemplate<String, ItemDto> rankTemplate(
+            RedisConnectionFactory redisConnectionFactory
+    ) {
+        RedisTemplate<String, ItemDto> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        template.setKeySerializer(RedisSerializer.string());
+        template.setValueSerializer(RedisSerializer.json());
+        return template;
+    }
 }

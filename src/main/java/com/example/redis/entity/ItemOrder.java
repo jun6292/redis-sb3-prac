@@ -1,20 +1,24 @@
 package com.example.redis.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 @Getter
-@Setter
+@Entity
+@Table(name = "orders")
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
-@RedisHash("order")
 public class ItemOrder {
     @Id
-    private String id;
-    private String item;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
+
     private Integer count;
-    private Long totalPrice;
-    private String status;
 }

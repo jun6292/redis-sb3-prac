@@ -32,37 +32,37 @@ public class OrderController {
         return orders;
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ItemOrder readOne(
             @PathVariable("id")
-            String id
+            Long id
     ) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("{id}")
-    public ItemOrder update(
-            @PathVariable("id")
-            String id,
-            @RequestBody
-            ItemOrder order
-    ) {
-        ItemOrder target = orderRepository
-                .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        target.setItem(order.getItem());
-        target.setCount(order.getCount());
-        target.setTotalPrice(order.getTotalPrice());
-        target.setStatus(order.getStatus());
-        return orderRepository.save(target);
-    }
+//    @PutMapping("/{id}")
+//    public ItemOrder update(
+//            @PathVariable("id")
+//            Long id,
+//            @RequestBody
+//            ItemOrder order
+//    ) {
+//        ItemOrder target = orderRepository
+//                .findById(id)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        target.setItem(order.getItem());
+//        target.setCount(order.getCount());
+//        target.setTotalPrice(order.getTotalPrice());
+//        target.setStatus(order.getStatus());
+//        return orderRepository.save(target);
+//    }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(
             @PathVariable("id")
-            String id
+            Long id
     ) {
         orderRepository.deleteById(id);
     }
