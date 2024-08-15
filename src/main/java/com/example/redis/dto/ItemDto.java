@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemDto {
+public class ItemDto implements Serializable {
     private Long id;
     private String name;
     private String description;
