@@ -36,6 +36,6 @@ spring:
       hibernate:
         use_sql_comments: true
         format_sql: false
-  sql:
-    init:
-      mode: always
+#  sql:
+#    init:
+#      mode: always
