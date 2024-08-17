@@ -9,11 +9,13 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.time.Duration;
 
 @Configuration
 @EnableCaching
+@EnableScheduling
 public class CacheConfig {
     @Bean
     public RedisCacheManager redisCacheManager(
@@ -25,14 +27,26 @@ public class CacheConfig {
         RedisCacheConfiguration configuration = RedisCacheConfiguration
                 .defaultCacheConfig()
                 .disableCachingNullValues() // null 캐싱을 하지 않는다.
-                .entryTtl(Duration.ofSeconds(60))   // 기본 캐시 유지 시간 (Time to Live)
+                .entryTtl(Duration.ofSeconds(120))   // 기본 캐시 유지 시간 (Time to Live)
                 .computePrefixWith(CacheKeyPrefix.simple()) // 캐시를 구분하는 접두사 설정
                 .serializeValuesWith(
                         RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.java())  // 캐시에 저장할 값을 어떻게 직렬화/역직렬화 할 것인지
                 );
+
+        RedisCacheConfiguration individual = RedisCacheConfiguration
+                .defaultCacheConfig()
+                .disableCachingNullValues()
+                .entryTtl(Duration.ofSeconds(20))
+                .enableTimeToIdle()
+                .computePrefixWith(CacheKeyPrefix.simple())
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair.fromSerializer(RedisSerializer.json())
+                );
+
         return RedisCacheManager
                 .builder(redisConnectionFactory)
                 .cacheDefaults(configuration)
+                .withCacheConfiguration("storeCache", individual)
                 .build();
     }
 }

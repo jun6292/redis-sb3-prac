@@ -1,26 +1,29 @@
 package com.example.redis.config;
 
 import com.example.redis.dto.ItemDto;
+import com.example.redis.dto.ItemOrderDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
+@EnableRedisHttpSession
 public class RedisConfig {
-//    @Bean
-//    public RedisTemplate<String, ItemDto> itemRedisTemplate(
-//        RedisConnectionFactory redisConnectionFactory
-//    ) {
-//        RedisTemplate<String, ItemDto> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory);
-//        redisTemplate.setKeySerializer(RedisSerializer.string());
-//        redisTemplate.setValueSerializer(RedisSerializer.json());
-//        return redisTemplate;
-//    }
-//
+    @Bean
+    public RedisTemplate<String, ItemDto> itemRedisTemplate(
+        RedisConnectionFactory redisConnectionFactory
+    ) {
+        RedisTemplate<String, ItemDto> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setValueSerializer(RedisSerializer.json());
+        return redisTemplate;
+    }
+
     @Bean
     public RedisTemplate<String, Integer> articleTemplate(
             RedisConnectionFactory redisConnectionFactory
@@ -56,5 +59,16 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
         redisTemplate.setHashValueSerializer(new GenericToStringSerializer<>(Integer.class));
         return redisTemplate;
+    }
+
+    @Bean
+    public RedisTemplate<String, ItemOrderDto> orderTemplate(
+            RedisConnectionFactory redisConnectionFactory
+    ) {
+        RedisTemplate<String, ItemOrderDto> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        template.setKeySerializer(RedisSerializer.string());
+        template.setValueSerializer(RedisSerializer.java());
+        return template;
     }
 }

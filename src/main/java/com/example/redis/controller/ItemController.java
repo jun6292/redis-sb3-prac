@@ -1,6 +1,7 @@
 package com.example.redis.controller;
 
 import com.example.redis.dto.ItemDto;
+import com.example.redis.dto.ItemOrderDto;
 import com.example.redis.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,20 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
-
-    @PostMapping("/{id}/purchase")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void purchase(
-            @PathVariable("id")
-            Long id
-    ) {
-        itemService.purchase(id);
-    }
-
-    @GetMapping("/ranks")
-    public List<ItemDto> getRanks() {
-        return itemService.getMostSold();
-    }
 
     @PostMapping
     public ItemDto create(
@@ -70,11 +57,27 @@ public class ItemController {
         itemService.delete(id);
     }
 
-    @GetMapping("/search")
+    @GetMapping("search")
     public Page<ItemDto> search(
-            @RequestParam(name = "q") String query,
+            @RequestParam(name = "q")
+            String query,
             Pageable pageable
     ) {
         return itemService.searchByName(query, pageable);
     }
+
+    @PostMapping("{id}/purchase")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void purchase(
+            @RequestBody
+            ItemOrderDto dto
+    ) {
+        itemService.purchase(dto);
+    }
+
+    @GetMapping("/ranks")
+    public List<ItemDto> getRanks() {
+        return itemService.getMostSold();
+    }
 }
+
